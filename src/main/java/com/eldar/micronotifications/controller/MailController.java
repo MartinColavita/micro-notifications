@@ -1,35 +1,32 @@
 package com.eldar.micronotifications.controller;
 
-import com.eldar.micronotifications.model.MailRequestDTO;
+import com.eldar.micronotifications.model.requests.MailRequestDTO;
 import com.eldar.micronotifications.services.MailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @CrossOrigin(value = "*")
 @RestController
 @RequestMapping("/api/mail")
+@AllArgsConstructor
 public class MailController {
-    @Autowired
-    MailService mailService;
 
-    @PostMapping("/send-mail")
-/*    @Operation(
+    private final MailService mailService;
+
+
+    @PostMapping("/send")
+    @Operation(
             summary = "Enviar un correo electrónico",
             description = "Este endpoint acepta un objeto JSON que contiene la información del correo electrónico y envía el correo.",
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = MailRequestDTO.class),
@@ -45,8 +42,8 @@ public class MailController {
                             }
                     )
             )
-    )*/
-    public ResponseEntity<MailRequestDTO> envioMail(@Valid @RequestBody MailRequestDTO mailRequestDTO) {
+    )
+    public ResponseEntity<MailRequestDTO> envioMail(@RequestBody MailRequestDTO mailRequestDTO) {
         log.info("#### Comienza endpoint: /send-mail ####");
         log.info("MailRequestDTO recibido: " + mailRequestDTO.toString());
 
@@ -54,15 +51,14 @@ public class MailController {
             log.error("#### Error: Missing required fields in MailRequestDTO ####");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         mailService.sendMail(mailRequestDTO);
         return new ResponseEntity<>(mailRequestDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/test-send-mail")
+
+    @PostMapping("/test-send")
     public ResponseEntity<String> testEnvioMail() {
         log.info("#### Comienza endpoint: /test-send-mail ####");
-
         try {
             mailService.testSendMail();
             return new ResponseEntity<>("Correo de prueba enviado exitosamente.", HttpStatus.OK);

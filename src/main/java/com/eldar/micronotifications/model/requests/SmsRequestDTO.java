@@ -1,4 +1,4 @@
-package com.eldar.micronotifications.model;
+package com.eldar.micronotifications.model.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

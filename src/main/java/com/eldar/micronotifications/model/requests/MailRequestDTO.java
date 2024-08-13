@@ -1,4 +1,4 @@
-package com.eldar.micronotifications.model;
+package com.eldar.micronotifications.model.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
