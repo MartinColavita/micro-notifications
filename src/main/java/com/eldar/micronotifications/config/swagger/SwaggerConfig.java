@@ -1,4 +1,4 @@
-package com.eldar.micronotifications.swagger;
+package com.eldar.micronotifications.config.swagger;
 
 
 import io.swagger.v3.oas.models.OpenAPI;

@@ -1,4 +1,4 @@
-package com.eldar.micronotifications.swagger.responses;
+package com.eldar.micronotifications.config.swagger.responses;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
